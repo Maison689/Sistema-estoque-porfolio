@@ -28,6 +28,12 @@ class ProductUnit(StrEnum):
     CM = "CM"
 
 
+class MovementType(StrEnum):
+    ENTRY = "ENTRY"
+    EXIT = "EXIT"
+    ADJUSTMENT = "ADJUSTMENT"
+
+
 class Category(Base):
     __tablename__ = "categories"
 
@@ -97,6 +103,7 @@ class Product(Base):
         cascade="all, delete-orphan",
         uselist=False,
     )
+    movements: Mapped[list["StockMovement"]] = relationship(back_populates="product")
 
 
 class InventoryBalance(Base):
@@ -124,3 +131,41 @@ class InventoryBalance(Base):
         nullable=False,
     )
     product: Mapped[Product] = relationship(back_populates="balance")
+
+
+class StockMovement(Base):
+    __tablename__ = "stock_movements"
+    __table_args__ = (
+        CheckConstraint(
+            "quantity_delta <> 0",
+            name="ck_stock_movements_delta_non_zero",
+        ),
+        CheckConstraint(
+            "balance_before >= 0",
+            name="ck_stock_movements_balance_before_non_negative",
+        ),
+        CheckConstraint(
+            "balance_after >= 0",
+            name="ck_stock_movements_balance_after_non_negative",
+        ),
+        CheckConstraint(
+            "balance_after = balance_before + quantity_delta",
+            name="ck_stock_movements_balance_math",
+        ),
+    )
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    product_id: Mapped[int] = mapped_column(ForeignKey("products.id"), nullable=False)
+    created_by_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    type: Mapped[MovementType] = mapped_column(SqlEnum(MovementType), nullable=False)
+    quantity_delta: Mapped[Decimal] = mapped_column(Numeric(12, 3), nullable=False)
+    balance_before: Mapped[Decimal] = mapped_column(Numeric(12, 3), nullable=False)
+    balance_after: Mapped[Decimal] = mapped_column(Numeric(12, 3), nullable=False)
+    reason: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    note: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+    product: Mapped[Product] = relationship(back_populates="movements")

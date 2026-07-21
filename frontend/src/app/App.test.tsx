@@ -82,6 +82,37 @@ function mockFetchForUser(user = adminUser) {
       supplier_tax_id: '12.345.678/0001-95',
     },
   ]
+  const movements: Array<{
+    balance_after: string
+    balance_before: string
+    created_at: string
+    created_by_id: number
+    created_by_name: string
+    id: number
+    note: string | null
+    product_id: number
+    product_name: string
+    product_sku: string
+    quantity_delta: string
+    reason: string | null
+    type: 'ENTRY' | 'EXIT' | 'ADJUSTMENT'
+  }> = [
+    {
+      balance_after: '3.000',
+      balance_before: '5.000',
+      created_at: '2026-07-20T12:00:00Z',
+      created_by_id: user.id,
+      created_by_name: user.name,
+      id: 40,
+      note: 'Separacao de pedido',
+      product_id: 20,
+      product_name: 'Mouse sem fio',
+      product_sku: 'MS-001',
+      quantity_delta: '-2.000',
+      reason: null,
+      type: 'EXIT',
+    },
+  ]
 
   vi.spyOn(window, 'fetch').mockImplementation((input, init) => {
     const url = String(input)
@@ -135,6 +166,42 @@ function mockFetchForUser(user = adminUser) {
         return Promise.resolve(new Response(null, { status: 204 }))
       }
       return Promise.resolve(jsonResponse(productSupplierLinks))
+    }
+    if (url.includes('/movements')) {
+      const authorization = new Headers(init?.headers).get('Authorization')
+      if (!authorization) return Promise.resolve(jsonResponse({}, 401))
+      if (init?.method === 'POST') {
+        const body = JSON.parse(String(init.body ?? '{}')) as {
+          note?: string
+          product_id: number
+          quantity?: string
+          quantity_delta?: string
+          reason?: string
+        }
+        const isExit = url.includes('/movements/exits')
+        const isAdjustment = url.includes('/movements/adjustments')
+        const quantityDelta = isAdjustment
+          ? body.quantity_delta ?? '0.000'
+          : `${isExit ? '-' : ''}${body.quantity ?? '0.000'}`
+        const movement = {
+          balance_after: isExit ? '2.000' : '4.000',
+          balance_before: '3.000',
+          created_at: '2026-07-20T12:05:00Z',
+          created_by_id: user.id,
+          created_by_name: user.name,
+          id: 41,
+          note: body.note ?? null,
+          product_id: body.product_id,
+          product_name: 'Mouse sem fio',
+          product_sku: 'MS-001',
+          quantity_delta: quantityDelta,
+          reason: body.reason ?? null,
+          type: isAdjustment ? 'ADJUSTMENT' : isExit ? 'EXIT' : 'ENTRY',
+        } as const
+        movements.unshift(movement)
+        return Promise.resolve(jsonResponse(movement, 201))
+      }
+      return Promise.resolve(jsonResponse(movements))
     }
     if (url.includes('/products')) {
       const authorization = new Headers(init?.headers).get('Authorization')
@@ -260,6 +327,11 @@ test('operator does not see dashboard or users navigation', async () => {
     expect(screen.getAllByText('Fornecedor Alpha')[0]).toBeVisible(),
   )
   expect(screen.queryByRole('button', { name: /salvar fornecedor/i })).toBeNull()
+
+  fireEvent.click(screen.getByRole('button', { name: /movimentacoes/i }))
+
+  await waitFor(() => expect(screen.getByText('-2.000')).toBeVisible())
+  expect(screen.queryByRole('button', { name: /registrar ajuste/i })).toBeNull()
 })
 
 test('loads products and creates catalog records for admin', async () => {
@@ -336,4 +408,29 @@ test('loads suppliers and creates supplier links for admin', async () => {
   await waitFor(() =>
     expect(screen.getAllByText('Fornecedor Beta')[0]).toBeVisible(),
   )
+})
+
+test('loads movements and registers stock entries for admin', async () => {
+  await loginAsAdmin()
+
+  fireEvent.click(screen.getByRole('button', { name: /movimentacoes/i }))
+
+  await waitFor(() => expect(screen.getByText('-2.000')).toBeVisible())
+
+  fireEvent.change(screen.getAllByLabelText(/^produto$/i)[0], {
+    target: { value: '20' },
+  })
+  fireEvent.change(screen.getAllByLabelText(/^tipo$/i)[0], {
+    target: { value: 'ENTRY' },
+  })
+  fireEvent.change(screen.getByLabelText(/^quantidade$/i), {
+    target: { value: '1.000' },
+  })
+  fireEvent.change(screen.getByLabelText(/^observacao$/i), {
+    target: { value: 'Compra recebida' },
+  })
+  fireEvent.click(screen.getByRole('button', { name: /registrar entrada/i }))
+
+  await waitFor(() => expect(screen.getByText('4.000')).toBeVisible())
+  expect(screen.getAllByText('Mouse sem fio')[0]).toBeVisible()
 })

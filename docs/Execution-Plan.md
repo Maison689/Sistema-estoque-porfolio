@@ -2,7 +2,7 @@
 
 ## Controle do documento
 
-- **Status:** Meta 7 concluida; pronto para planejar a Meta 8
+- **Status:** Meta 8 concluida; pronto para planejar a Meta 9
 - **Objetivo:** orientar a execução do MVP por metas verificáveis
 - **Método:** Specification-Driven Development (SDD)
 
@@ -330,8 +330,27 @@ associados sem duplicidade, preservando dados de entidades inativas.
 - telas com confirmação e feedback;
 - testes transacionais, concorrentes e de rollback.
 
-**Critério de conclusão:** toda mudança de saldo é explicada por movimentação,
-falhas não deixam estado parcial e o saldo nunca fica negativo.
+**Atividades concluidas em 20/07/2026:**
+
+- modelo `stock_movements` e migration Alembic da Meta 8 criados;
+- tipos de movimentacao `ENTRY`, `EXIT` e `ADJUSTMENT` implementados;
+- endpoints de entrada, saida, ajuste e historico criados em `/api/v1/movements`;
+- atualizacao de saldo feita na mesma transacao do historico, com bloqueio
+  `SELECT FOR UPDATE`;
+- cada movimentacao registra saldo anterior, variacao, saldo final, produto,
+  responsavel, data/hora, justificativa e observacao quando aplicavel;
+- produtos inativos, saldo insuficiente e ajuste com variacao zero sao
+  rejeitados;
+- ajuste limitado a Administrador e Gestor; Operador pode registrar entrada e
+  saida;
+- frontend de movimentacoes integrado a API real com formulario, filtros e
+  historico;
+- migration aplicada no PostgreSQL local e endpoints reais validados com
+  entrada, saida, ajuste e erro de saldo insuficiente;
+- testes backend e frontend adicionados para regras, permissoes e interface.
+
+**Critério de conclusão:** concluido. Toda mudanca de saldo e explicada por
+movimentacao, falhas nao deixam estado parcial e o saldo nunca fica negativo.
 
 ### Meta 9 — Histórico, estoque mínimo e dashboard
 
@@ -425,5 +444,5 @@ Uma tarefa só está concluída quando:
 
 ## 7. Ordem imediata
 
-O proximo passo e apresentar o plano detalhado da Meta 8, incluindo
-movimentacoes, consistencia de saldo, transacoes e historico operacional.
+O proximo passo e apresentar o plano detalhado da Meta 9, incluindo historico
+filtravel, estoque minimo e dashboard gerencial.

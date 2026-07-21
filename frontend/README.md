@@ -6,8 +6,8 @@ Base React 19, TypeScript e Vite da aplicacao Sis Estoque.
 
 A interface possui telas-base navegaveis para dashboard, produtos,
 movimentacoes, fornecedores, login e estados de interface. O catalogo de
-produtos e categorias usa a API real. As demais telas ainda usam dados
-simulados separados em `src/data/mockData.ts`.
+produtos, categorias, fornecedores, vinculos e movimentacoes usa a API real.
+As telas ainda nao integradas permanecem separadas em `src/data/mockData.ts`.
 
 ## Autenticacao
 
@@ -25,6 +25,12 @@ consulta o catalogo sem botoes de manutencao.
 A tela de fornecedores consulta `GET /api/v1/suppliers` e os vinculos em
 `GET /api/v1/products/{product_id}/suppliers`. Administrador e Gestor podem
 manter fornecedores e vinculos. Operador consulta sem botoes de manutencao.
+
+## Movimentacoes
+
+A tela de movimentacoes consulta `GET /api/v1/movements` e registra entradas,
+saidas e ajustes pelos endpoints reais. Operador pode registrar entrada e saida;
+ajuste fica disponivel somente para Administrador e Gestor.
 
 ## Comandos
 

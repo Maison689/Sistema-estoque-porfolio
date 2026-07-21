@@ -92,7 +92,9 @@ export function App() {
         user.role === 'OPERATOR' ? <AccessDeniedState /> : <DashboardView />
       )}
       {user && token && activeRoute === 'products' && <ProductsView token={token} user={user} />}
-      {user && activeRoute === 'movements' && <MovementsView />}
+      {user && token && activeRoute === 'movements' && (
+        <MovementsView token={token} user={user} />
+      )}
       {user && token && activeRoute === 'suppliers' && (
         <SuppliersView token={token} user={user} />
       )}

@@ -54,6 +54,20 @@ Endpoints principais:
 Fornecedores aceitam CPF ou CNPJ valido e unico quando o documento fiscal e
 informado. Fornecedores ou produtos inativos nao recebem novos vinculos.
 
+## Movimentacoes de estoque
+
+Endpoints principais:
+
+- `GET /api/v1/movements` para perfis autenticados, com filtros por produto e
+  tipo;
+- `POST /api/v1/movements/entries` para registrar entradas;
+- `POST /api/v1/movements/exits` para registrar saidas;
+- `POST /api/v1/movements/adjustments` para ajustes de Administrador e Gestor.
+
+Toda movimentacao persiste saldo anterior, variacao, saldo final, responsavel e
+data/hora. Saidas nao podem deixar saldo negativo, produtos inativos sao
+bloqueados e ajustes exigem justificativa.
+
 Criar administrador local inicial:
 
 ```powershell

@@ -1,7 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routers import auth, categories, health, products, suppliers, users
+from app.api.routers import (
+    auth,
+    categories,
+    health,
+    movements,
+    products,
+    suppliers,
+    users,
+)
 from app.core.config import get_settings
 
 
@@ -20,6 +28,7 @@ def create_app() -> FastAPI:
     app.include_router(auth.router, prefix=settings.api_v1_prefix)
     app.include_router(categories.router, prefix=settings.api_v1_prefix)
     app.include_router(health.router, prefix=settings.api_v1_prefix)
+    app.include_router(movements.router, prefix=settings.api_v1_prefix)
     app.include_router(products.router, prefix=settings.api_v1_prefix)
     app.include_router(suppliers.router, prefix=settings.api_v1_prefix)
     app.include_router(users.router, prefix=settings.api_v1_prefix)

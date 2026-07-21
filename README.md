@@ -17,7 +17,8 @@ Meta 3 criou a fundacao tecnica de frontend, backend e banco local. A Meta 4
 criou a experiencia-base navegavel. A Meta 5 adicionou autenticacao,
 autorizacao e administracao inicial de usuarios. A Meta 6 entregou categorias,
 produtos e saldo inicial zero com API real e tela integrada. A Meta 7 entregou
-fornecedores e vinculos com produtos.
+fornecedores e vinculos com produtos. A Meta 8 entregou movimentacoes de
+estoque com entrada, saida, ajuste e consistencia transacional de saldo.
 
 ## Pre-requisitos locais
 
@@ -83,4 +84,4 @@ $env:ADMIN_INITIAL_NAME='Administrador'
 
 ## Proximo passo
 
-Apresentar e aprovar o plano da Meta 8.
+Apresentar e aprovar o plano da Meta 9.
