@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Catálogo de Produtos - Sis Estoque</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#2170e4",
+                        "secondary": "#0058be",
+                        "surface": "#f7f9fb",
+                        "background": "#f7f9fb",
+                        "on-background": "#191c1e",
+                        "tertiary-container": "#1a2a3e",
+                        "surface-tint": "#545f73",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "surface-container-low": "#f2f4f6",
+                        "inverse-surface": "#2d3133",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-container": "#8191a9",
+                        "primary-container": "#1e293b",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "tertiary": "#041528",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#111c2d",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-container": "#8590a6",
+                        "secondary-fixed": "#d8e2ff",
+                        "outline": "#75777d",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-container": "#fefcff",
+                        "surface-dim": "#d8dadc",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "error": "#ba1a1a",
+                        "surface-container": "#eceef0",
+                        "outline-variant": "#c5c6cd",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed-dim": "#bcc7de",
+                        "primary-fixed": "#d8e3fb",
+                        "on-secondary-fixed": "#001a42",
+                        "tertiary-fixed": "#d3e4fe",
+                        "primary": "#091426",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e0e3e5",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed-variant": "#3c475a",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#bcc7de",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-surface-variant": "#45474c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sidebar_width": "260px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "gutter": "16px",
+                        "margin": "24px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["13px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e2e8e0; border-radius: 10px; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar -->
+<aside class="w-sidebar_width h-screen fixed left-0 top-0 bg-primary-container flex flex-col h-full w-[260px] border-r border-outline-variant z-50">
+<div class="p-lg">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">Sis Estoque</h1>
+<p class="text-on-primary/60 font-label-md text-label-md uppercase tracking-wider mt-1">Stock Management</p>
+</div>
+<nav class="flex-1 mt-md">
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container/10 text-secondary border-l-4 border-secondary transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-body-md text-body-md">Produtos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
+<span class="font-body-md text-body-md">Movimentações</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-body-md text-body-md">Fornecedores</span>
+</a>
+<div class="mt-auto pb-lg">
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Configurações</span>
+<span class="ml-auto text-[10px] uppercase tracking-wider text-on-primary/40">Em breve</span>
+</a>
+</div>
+</nav>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="ml-[260px] flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center h-16 px-lg w-full bg-surface sticky top-0 z-40 border-b border-outline-variant">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-secondary/20 transition-all outline-none" placeholder="Pesquisar no sistema..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface font-bold">Admin User</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Gerente de Estoque</p>
+</div>
+<img class="w-10 h-10 rounded-full border border-outline-variant object-cover group-hover:ring-2 group-hover:ring-secondary transition-all" data-alt="A professional headshot of a corporate stock manager, high-quality photography, clean studio lighting, wearing a navy blue business casual shirt, friendly and authoritative expression, modern minimalist aesthetic with soft bokeh background, 8k resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGWAyPRR3YJHDXMfxFZcK_xEQNSQSbsi3d9naQGiHjZI6323XfNn7fnM62eXdu8Vw8imtSckaqxPNcE9pIRp78DNRxflHxrbhAPYVRS0Cf0yU2ZYgvkkEIMdgURHCgILFaHfsCCCA6_MLxnlKQzTJH9l19US9R3nPtk-LtBkAaXeAbMP0QSL3DrihqM87DdSFoLQ3tAY3Tqlt1m4ZdS0fhOFT9muzi_gt28_TVbUhvVgULm89MkMIJHQloQwAr9itJwfAFiCc7SIma"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<main class="p-lg space-y-lg max-w-[1600px] mx-auto w-full">
+<!-- Header Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<nav class="flex items-center gap-2 text-on-surface-variant mb-2">
+<span class="text-label-md font-label-md uppercase tracking-widest">Produtos</span>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-label-md font-label-md uppercase tracking-widest text-secondary font-bold">Catálogo</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg text-primary">Catálogo de Produtos</h2>
+<p class="text-on-surface-variant font-body-md text-body-md mt-1">Gerencie e visualize todo o inventário da empresa em tempo real.</p>
+</div>
+<button class="bg-secondary text-on-secondary px-6 py-3 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-secondary/90 transition-all shadow-sm active:scale-95">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                    Adicionar Produto
+                </button>
+</section>
+<!-- Search and Filter Bar -->
+<section class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+<div class="md:col-span-5 space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Buscar Produto</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="barcode">barcode</span>
+<input class="w-full bg-white border border-outline-variant rounded-lg pl-10 pr-4 py-2.5 text-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/10 outline-none transition-all" placeholder="Nome ou Código do produto..." type="text"/>
+</div>
+</div>
+<div class="md:col-span-3 space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Categoria</label>
+<select class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/10 outline-none transition-all appearance-none cursor-pointer">
+<option>Todas as Categorias</option>
+<option>Eletrônicos</option>
+<option>Escritório</option>
+<option>Mobiliário</option>
+<option>Informática</option>
+</select>
+</div>
+<div class="md:col-span-3 space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Status do Estoque</label>
+<select class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/10 outline-none transition-all appearance-none cursor-pointer">
+<option>Todos os Status</option>
+<option>Dentro do mínimo</option>
+<option>Abaixo do mínimo</option>
+</select>
+</div>
+<div class="md:col-span-1">
+<button class="w-full bg-surface-container-high text-on-surface p-2.5 rounded-lg border border-outline-variant hover:bg-surface-container-highest transition-all flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+</section>
+<!-- Data Table Container -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Código</th>
+<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Nome</th>
+<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Categoria</th>
+<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Qtd. Atual</th>
+<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Unidade</th>
+<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Ações</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-lg py-sm font-code-md text-code-md text-on-surface-variant font-medium">#PRD-9021</td>
+<td class="px-lg py-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="monitor">monitor</span>
+</div>
+<span class="font-body-md text-body-md font-semibold">Monitor UltraWide 34"</span>
+</div>
+</td>
+<td class="px-lg py-sm text-body-sm font-body-sm text-on-surface-variant">Informática</td>
+<td class="px-lg py-sm text-body-sm font-body-sm">42</td>
+<td class="px-lg py-sm text-body-sm font-body-sm">UN</td>
+<td class="px-lg py-sm">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700 border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2"></span>
+                                        Dentro do mínimo
+                                    </span>
+</td>
+<td class="px-lg py-sm text-right space-x-1">
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:bg-secondary/10 rounded transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded transition-all" title="Inativar produto">
+<span class="material-symbols-outlined text-[18px]" data-icon="block">block</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-lg py-sm font-code-md text-code-md text-on-surface-variant font-medium">#PRD-7742</td>
+<td class="px-lg py-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="print">print</span>
+</div>
+<span class="font-body-md text-body-md font-semibold">Toner HP Laser Jet</span>
+</div>
+</td>
+<td class="px-lg py-sm text-body-sm font-body-sm text-on-surface-variant">Escritório</td>
+<td class="px-lg py-sm text-body-sm font-body-sm font-bold text-orange-600">08</td>
+<td class="px-lg py-sm text-body-sm font-body-sm">UN</td>
+<td class="px-lg py-sm">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-orange-100 text-orange-700 border border-orange-200">
+<span class="w-1.5 h-1.5 rounded-full bg-orange-500 mr-2"></span>
+                                        Abaixo do mínimo
+                                    </span>
+</td>
+<td class="px-lg py-sm text-right space-x-1">
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:bg-secondary/10 rounded transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded transition-all" title="Inativar produto">
+<span class="material-symbols-outlined text-[18px]" data-icon="block">block</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-lg py-sm font-code-md text-code-md text-on-surface-variant font-medium">#PRD-1290</td>
+<td class="px-lg py-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="mouse">mouse</span>
+</div>
+<span class="font-body-md text-body-md font-semibold">Mouse Sem Fio Logitech</span>
+</div>
+</td>
+<td class="px-lg py-sm text-body-sm font-body-sm text-on-surface-variant">Informática</td>
+<td class="px-lg py-sm text-body-sm font-body-sm font-bold text-error">00</td>
+<td class="px-lg py-sm text-body-sm font-body-sm">UN</td>
+<td class="px-lg py-sm">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-red-100 text-red-700 border border-red-200">
+<span class="w-1.5 h-1.5 rounded-full bg-red-500 mr-2"></span>
+                                        Abaixo do mínimo
+                                    </span>
+</td>
+<td class="px-lg py-sm text-right space-x-1">
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:bg-secondary/10 rounded transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded transition-all" title="Inativar produto">
+<span class="material-symbols-outlined text-[18px]" data-icon="block">block</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-lg py-sm font-code-md text-code-md text-on-surface-variant font-medium">#PRD-8831</td>
+<td class="px-lg py-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chair">chair</span>
+</div>
+<span class="font-body-md text-body-md font-semibold">Cadeira Ergonômica Pro</span>
+</div>
+</td>
+<td class="px-lg py-sm text-body-sm font-body-sm text-on-surface-variant">Mobiliário</td>
+<td class="px-lg py-sm text-body-sm font-body-sm">15</td>
+<td class="px-lg py-sm text-body-sm font-body-sm">UN</td>
+<td class="px-lg py-sm">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700 border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2"></span>
+                                        Dentro do mínimo
+                                    </span>
+</td>
+<td class="px-lg py-sm text-right space-x-1">
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:bg-secondary/10 rounded transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded transition-all" title="Inativar produto">
+<span class="material-symbols-outlined text-[18px]" data-icon="block">block</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-lg py-sm font-code-md text-code-md text-on-surface-variant font-medium">#PRD-3321</td>
+<td class="px-lg py-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="cable">cable</span>
+</div>
+<span class="font-body-md text-body-md font-semibold">Cabo HDMI 2.1 - 2m</span>
+</div>
+</td>
+<td class="px-lg py-sm text-body-sm font-body-sm text-on-surface-variant">Eletrônicos</td>
+<td class="px-lg py-sm text-body-sm font-body-sm">124</td>
+<td class="px-lg py-sm text-body-sm font-body-sm">UN</td>
+<td class="px-lg py-sm">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700 border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2"></span>
+                                        Dentro do mínimo
+                                    </span>
+</td>
+<td class="px-lg py-sm text-right space-x-1">
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:bg-secondary/10 rounded transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded transition-all" title="Inativar produto">
+<span class="material-symbols-outlined text-[18px]" data-icon="block">block</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="bg-surface-container-low px-lg py-4 flex items-center justify-between border-t border-outline-variant">
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                        Mostrando <span class="font-bold text-on-surface">1</span> a <span class="font-bold text-on-surface">5</span> de <span class="font-bold text-on-surface">128</span> produtos
+                    </p>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant bg-white text-on-surface-variant hover:bg-surface-container-high disabled:opacity-50 transition-all" disabled="">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-secondary bg-secondary text-on-secondary font-label-md text-label-md">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant bg-white text-on-surface-variant hover:bg-surface-container-high font-label-md text-label-md">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant bg-white text-on-surface-variant hover:bg-surface-container-high font-label-md text-label-md">3</button>
+<span class="text-on-surface-variant px-1">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant bg-white text-on-surface-variant hover:bg-surface-container-high font-label-md text-label-md">26</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant bg-white text-on-surface-variant hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Stats Overview (Asymmetric Detail) -->
+<section class="grid grid-cols-1 lg:grid-cols-4 gap-lg">
+<div class="lg:col-span-1 bg-primary text-on-primary p-lg rounded-xl flex flex-col justify-between shadow-lg relative overflow-hidden group">
+<div class="relative z-10">
+<p class="text-on-primary/60 font-label-md text-label-md uppercase tracking-wider mb-2">Total de Itens</p>
+<h3 class="text-[36px] font-black">4,892</h3>
+<div class="flex items-center gap-2 mt-4 text-emerald-400">
+<span class="material-symbols-outlined text-[18px]" data-icon="trending_up">trending_up</span>
+<span class="text-body-sm font-bold">Listagem paginada</span>
+</div>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-[120px] opacity-10 group-hover:scale-110 transition-transform" data-icon="inventory_2">inventory_2</span>
+</div>
+<div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="bg-white border border-outline-variant p-lg rounded-xl shadow-sm">
+<div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center mb-4">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase">Dentro do mínimo</p>
+<h4 class="text-headline-md font-headline-md mt-1">4,210</h4>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-4">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 86%"></div>
+</div>
+</div>
+<div class="bg-white border border-outline-variant p-lg rounded-xl shadow-sm">
+<div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center mb-4">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase">Abaixo do mínimo</p>
+<h4 class="text-headline-md font-headline-md mt-1">542</h4>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-4">
+<div class="bg-orange-500 h-full rounded-full" style="width: 11%"></div>
+</div>
+</div>
+<div class="bg-white border border-outline-variant p-lg rounded-xl shadow-sm">
+<div class="w-12 h-12 bg-red-100 text-red-600 rounded-lg flex items-center justify-center mb-4">
+<span class="material-symbols-outlined" data-icon="error">error</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase">Saldo zero</p>
+<h4 class="text-headline-md font-headline-md mt-1">140</h4>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-4">
+<div class="bg-red-500 h-full rounded-full" style="width: 3%"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Info -->
+<footer class="mt-auto px-lg py-sm border-t border-outline-variant text-center md:text-left">
+<p class="text-[11px] text-on-surface-variant/70 uppercase tracking-widest">
+                Sis Estoque v2.4.0 — Sistema de Gerenciamento de Alta Precisão
+            </p>
+</footer>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hover effect for table rows
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.addEventListener('mouseenter', () => {
+                    row.classList.add('shadow-inner');
+                });
+                row.addEventListener('mouseleave', () => {
+                    row.classList.remove('shadow-inner');
+                });
+            });
+
+            // Smooth scale on buttons
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+                btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+                btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,47 @@
+# Operating system
+Thumbs.db
+Desktop.ini
+
+# Editor and local tooling
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/coverage/
+
+# Backend
+backend/.venv/
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/.pytest_cache/
+backend/.ruff_cache/
+backend/.mypy_cache/
+backend/htmlcov/
+backend/coverage.xml
+
+# Python packaging
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Database and generated files
+*.sqlite
+*.db
+tmp/
+temp/
