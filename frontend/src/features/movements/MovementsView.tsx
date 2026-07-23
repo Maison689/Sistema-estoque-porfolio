@@ -36,7 +36,8 @@ export function MovementsView({ token, user }: MovementsViewProps) {
   const canAdjust = user.role === 'ADMIN' || user.role === 'MANAGER'
   const [products, setProducts] = useState<Product[]>([])
   const [movements, setMovements] = useState<Movement[]>([])
-  const [filters, setFilters] = useState<MovementFilters>({})
+  const [filters, setFilters] = useState<MovementFilters>({ limit: 10, offset: 0 })
+  const [totalMovements, setTotalMovements] = useState(0)
   const [form, setForm] = useState<MovementFormState>(emptyForm)
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
@@ -60,7 +61,8 @@ export function MovementsView({ token, user }: MovementsViewProps) {
           listMovements(token, nextFilters),
         ])
         setProducts(productResult)
-        setMovements(movementResult)
+        setMovements(movementResult.items)
+        setTotalMovements(movementResult.total)
         if (!form.productId && productResult.length > 0) {
           setForm((current) => ({ ...current, productId: String(productResult[0].id) }))
         }
@@ -195,7 +197,11 @@ export function MovementsView({ token, user }: MovementsViewProps) {
           Produto
           <select
             onChange={(event) =>
-              handleFilterChange({ ...filters, productId: event.target.value })
+              handleFilterChange({
+                ...filters,
+                offset: 0,
+                productId: event.target.value,
+              })
             }
             value={filters.productId ?? ''}
           >
@@ -213,6 +219,7 @@ export function MovementsView({ token, user }: MovementsViewProps) {
             onChange={(event) =>
               handleFilterChange({
                 ...filters,
+                offset: 0,
                 type: event.target.value as MovementType | '',
               })
             }
@@ -223,6 +230,51 @@ export function MovementsView({ token, user }: MovementsViewProps) {
             <option value="EXIT">Saida</option>
             <option value="ADJUSTMENT">Ajuste</option>
           </select>
+        </label>
+        <label>
+          Inicio
+          <input
+            onChange={(event) =>
+              handleFilterChange({
+                ...filters,
+                dateFrom: event.target.value
+                  ? new Date(event.target.value).toISOString()
+                  : '',
+                offset: 0,
+              })
+            }
+            type="datetime-local"
+          />
+        </label>
+        <label>
+          Fim
+          <input
+            onChange={(event) =>
+              handleFilterChange({
+                ...filters,
+                dateTo: event.target.value
+                  ? new Date(event.target.value).toISOString()
+                  : '',
+                offset: 0,
+              })
+            }
+            type="datetime-local"
+          />
+        </label>
+        <label>
+          Responsavel
+          <input
+            inputMode="numeric"
+            onChange={(event) =>
+              handleFilterChange({
+                ...filters,
+                createdById: event.target.value,
+                offset: 0,
+              })
+            }
+            placeholder="ID"
+            value={filters.createdById ?? ''}
+          />
         </label>
         <button disabled={isLoading} onClick={() => refreshMovements()} type="button">
           Atualizar
@@ -278,6 +330,45 @@ export function MovementsView({ token, user }: MovementsViewProps) {
             </table>
           </div>
         )}
+      </section>
+      <section className="pagination-panel" aria-label="Paginacao do historico">
+        <span>
+          {totalMovements === 0
+            ? '0 registros'
+            : `${(filters.offset ?? 0) + 1}-${Math.min(
+                (filters.offset ?? 0) + (filters.limit ?? 10),
+                totalMovements,
+              )} de ${totalMovements}`}
+        </span>
+        <div className="inline-actions">
+          <button
+            disabled={isLoading || (filters.offset ?? 0) === 0}
+            onClick={() =>
+              handleFilterChange({
+                ...filters,
+                offset: Math.max(0, (filters.offset ?? 0) - (filters.limit ?? 10)),
+              })
+            }
+            type="button"
+          >
+            Anterior
+          </button>
+          <button
+            disabled={
+              isLoading ||
+              (filters.offset ?? 0) + (filters.limit ?? 10) >= totalMovements
+            }
+            onClick={() =>
+              handleFilterChange({
+                ...filters,
+                offset: (filters.offset ?? 0) + (filters.limit ?? 10),
+              })
+            }
+            type="button"
+          >
+            Proxima
+          </button>
+        </div>
       </section>
     </div>
   )

@@ -16,6 +16,13 @@ export type Movement = {
   type: MovementType
 }
 
+export type MovementPage = {
+  items: Movement[]
+  limit: number
+  offset: number
+  total: number
+}
+
 export type MovementPayload = {
   note?: string | null
   product_id: number

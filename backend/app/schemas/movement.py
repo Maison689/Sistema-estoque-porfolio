@@ -33,3 +33,10 @@ class MovementResponse(BaseModel):
     reason: str | None
     note: str | None
     created_at: datetime
+
+
+class MovementPage(BaseModel):
+    items: list[MovementResponse]
+    limit: int
+    offset: int
+    total: int

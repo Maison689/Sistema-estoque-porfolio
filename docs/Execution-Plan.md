@@ -2,7 +2,7 @@
 
 ## Controle do documento
 
-- **Status:** Meta 8 concluida; pronto para planejar a Meta 9
+- **Status:** Meta 9 concluida; pronto para planejar a Meta 10
 - **Objetivo:** orientar a execução do MVP por metas verificáveis
 - **Método:** Specification-Driven Development (SDD)
 
@@ -367,8 +367,23 @@ movimentacao, falhas nao deixam estado parcial e o saldo nunca fica negativo.
 - links entre resumo e consulta detalhada quando aplicável;
 - testes de cálculo, filtros, permissões e responsividade.
 
-**Critério de conclusão:** indicadores coincidem com as consultas oficiais e
-cada alteração de saldo pode ser rastreada pelo usuário.
+**Atividades concluidas em 22/07/2026:**
+
+- endpoint `GET /api/v1/dashboard` criado para Administrador e Gestor;
+- indicadores calculados com dados oficiais de produtos, saldos e movimentacoes;
+- produtos abaixo do minimo listados com a mesma regra do catalogo;
+- resumo de movimentacoes por tipo e ultimas movimentacoes disponibilizados;
+- endpoint `GET /api/v1/movements` evoluido com paginacao por `limit` e
+  `offset`;
+- historico filtravel por produto, tipo, periodo e responsavel;
+- dashboard frontend integrado a API real, sem dados simulados;
+- tela de movimentacoes atualizada com filtros adicionais e navegacao por
+  paginas;
+- testes backend e frontend adicionados/atualizados para dashboard, filtros,
+  permissao e interface.
+
+**Critério de conclusão:** concluido. Indicadores coincidem com as consultas
+oficiais e cada alteracao de saldo pode ser rastreada pelo usuario.
 
 ### Meta 10 — Qualidade e preparação de portfólio
 
@@ -444,5 +459,5 @@ Uma tarefa só está concluída quando:
 
 ## 7. Ordem imediata
 
-O proximo passo e apresentar o plano detalhado da Meta 9, incluindo historico
-filtravel, estoque minimo e dashboard gerencial.
+O proximo passo e apresentar o plano detalhado da Meta 10, incluindo qualidade,
+revisao de criterios, documentacao final e preparacao de portfolio.

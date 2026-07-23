@@ -121,7 +121,8 @@ def test_entry_exit_and_history_update_balance_atomically(
     assert exit_response.json()["balance_after"] == "6.500"
     assert str(get_balance(db_session, product.id)) == "6.500"
     assert history.status_code == 200
-    assert len(history.json()) == 2
+    assert history.json()["total"] == 2
+    assert len(history.json()["items"]) == 2
 
 
 def test_insufficient_balance_rejects_without_partial_change(
@@ -141,7 +142,8 @@ def test_insufficient_balance_rejects_without_partial_change(
 
     assert response.status_code == 409
     assert str(get_balance(db_session, product.id)) == "0.000"
-    assert history.json() == []
+    assert history.json()["items"] == []
+    assert history.json()["total"] == 0
 
 
 def test_adjustment_requires_manager_or_admin_and_reason(
@@ -212,3 +214,41 @@ def test_inactive_product_and_zero_quantity_are_rejected(
 
     assert inactive.status_code == 409
     assert zero.status_code == 422
+
+
+def test_history_filters_by_type_responsible_and_paginates(
+    client: TestClient,
+    db_session: Session,
+) -> None:
+    create_test_user(db_session, email="operator@example.com", role=UserRole.OPERATOR)
+    create_test_user(db_session, email="manager@example.com", role=UserRole.MANAGER)
+    operator_token = login(client, "operator@example.com")
+    manager_token = login(client, "manager@example.com")
+    product = create_catalog_product(db_session)
+
+    entry = client.post(
+        "/api/v1/movements/entries",
+        headers=auth_header(operator_token),
+        json={"product_id": product.id, "quantity": "4.000"},
+    )
+    client.post(
+        "/api/v1/movements/exits",
+        headers=auth_header(manager_token),
+        json={"product_id": product.id, "quantity": "1.000"},
+    )
+
+    entry_history = client.get(
+        "/api/v1/movements?type=ENTRY&limit=1&offset=0",
+        headers=auth_header(operator_token),
+    )
+    operator_history = client.get(
+        f"/api/v1/movements?created_by_id={entry.json()['created_by_id']}",
+        headers=auth_header(operator_token),
+    )
+
+    assert entry_history.status_code == 200
+    assert entry_history.json()["total"] == 1
+    assert entry_history.json()["items"][0]["type"] == "ENTRY"
+    assert operator_history.status_code == 200
+    assert operator_history.json()["total"] == 1
+    assert operator_history.json()["items"][0]["created_by_name"] == "Test User"

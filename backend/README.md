@@ -59,7 +59,7 @@ informado. Fornecedores ou produtos inativos nao recebem novos vinculos.
 Endpoints principais:
 
 - `GET /api/v1/movements` para perfis autenticados, com filtros por produto e
-  tipo;
+  tipo, periodo e responsavel, alem de paginacao por `limit` e `offset`;
 - `POST /api/v1/movements/entries` para registrar entradas;
 - `POST /api/v1/movements/exits` para registrar saidas;
 - `POST /api/v1/movements/adjustments` para ajustes de Administrador e Gestor.
@@ -67,6 +67,16 @@ Endpoints principais:
 Toda movimentacao persiste saldo anterior, variacao, saldo final, responsavel e
 data/hora. Saidas nao podem deixar saldo negativo, produtos inativos sao
 bloqueados e ajustes exigem justificativa.
+
+## Dashboard
+
+Endpoint principal:
+
+- `GET /api/v1/dashboard` para Administrador e Gestor.
+
+O dashboard calcula os indicadores a partir das tabelas oficiais: produtos
+ativos, produtos inativos, produtos abaixo do minimo, total de movimentacoes,
+resumo por tipo, ultimas movimentacoes e lista de produtos abaixo do minimo.
 
 Criar administrador local inicial:
 

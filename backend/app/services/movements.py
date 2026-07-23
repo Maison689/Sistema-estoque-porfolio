@@ -1,7 +1,8 @@
+from datetime import datetime
 from decimal import Decimal
 
 from fastapi import HTTPException, status
-from sqlalchemy import Select, select
+from sqlalchemy import Select, func, select
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
@@ -128,9 +129,14 @@ def register_movement(
 def list_movements(
     db: Session,
     *,
+    created_by_id: int | None = None,
+    date_from: datetime | None = None,
+    date_to: datetime | None = None,
+    limit: int = 20,
+    offset: int = 0,
     product_id: int | None = None,
     movement_type: MovementType | None = None,
-) -> list[dict[str, object]]:
+) -> dict[str, object]:
     statement: Select[tuple[StockMovement, Product, User]] = (
         select(StockMovement, Product, User)
         .join(Product, Product.id == StockMovement.product_id)
@@ -140,12 +146,30 @@ def list_movements(
         statement = statement.where(StockMovement.product_id == product_id)
     if movement_type is not None:
         statement = statement.where(StockMovement.type == movement_type)
+    if created_by_id is not None:
+        statement = statement.where(StockMovement.created_by_id == created_by_id)
+    if date_from is not None:
+        statement = statement.where(StockMovement.created_at >= date_from)
+    if date_to is not None:
+        statement = statement.where(StockMovement.created_at <= date_to)
 
-    rows = db.execute(statement.order_by(StockMovement.created_at.desc())).all()
-    return [
-        movement_to_response(movement, product, user)
-        for movement, product, user in rows
-    ]
+    total = db.scalar(
+        select(func.count()).select_from(statement.order_by(None).subquery()),
+    )
+    rows = db.execute(
+        statement.order_by(StockMovement.created_at.desc())
+        .offset(offset)
+        .limit(limit),
+    ).all()
+    return {
+        "items": [
+            movement_to_response(movement, product, user)
+            for movement, product, user in rows
+        ],
+        "limit": limit,
+        "offset": offset,
+        "total": total or 0,
+    }
 
 
 def movement_to_response(

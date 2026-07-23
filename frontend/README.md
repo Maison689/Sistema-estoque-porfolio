@@ -30,7 +30,14 @@ manter fornecedores e vinculos. Operador consulta sem botoes de manutencao.
 
 A tela de movimentacoes consulta `GET /api/v1/movements` e registra entradas,
 saidas e ajustes pelos endpoints reais. Operador pode registrar entrada e saida;
-ajuste fica disponivel somente para Administrador e Gestor.
+ajuste fica disponivel somente para Administrador e Gestor. O historico possui
+filtros por produto, tipo, periodo e responsavel, com paginacao.
+
+## Dashboard
+
+O dashboard consulta `GET /api/v1/dashboard` e apresenta indicadores reais,
+produtos abaixo do minimo, resumo de movimentacoes por tipo e atividades
+recentes. Operador nao acessa o dashboard gerencial.
 
 ## Comandos
 

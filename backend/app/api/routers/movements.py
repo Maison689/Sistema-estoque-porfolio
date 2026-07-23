@@ -1,9 +1,17 @@
+from datetime import datetime
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, Query, status
 
 from app.api.dependencies import CurrentUser, DbSession, require_roles
 from app.models.inventory import MovementType
 from app.models.user import UserRole
-from app.schemas.movement import AdjustmentCreate, MovementCreate, MovementResponse
+from app.schemas.movement import (
+    AdjustmentCreate,
+    MovementCreate,
+    MovementPage,
+    MovementResponse,
+)
 from app.services.movements import (
     list_movements,
     register_adjustment,
@@ -12,17 +20,35 @@ from app.services.movements import (
 )
 
 router = APIRouter(prefix="/movements", tags=["movements"])
-MovementTypeQuery = Query(default=None, alias="type")
+CreatedByQuery = Annotated[int | None, Query(ge=1)]
+LimitQuery = Annotated[int, Query(ge=1, le=100)]
+MovementTypeQuery = Annotated[MovementType | None, Query(alias="type")]
+OffsetQuery = Annotated[int, Query(ge=0)]
+ProductQuery = Annotated[int | None, Query(ge=1)]
 
 
-@router.get("", response_model=list[MovementResponse])
+@router.get("", response_model=MovementPage)
 def read_movements(
     db: DbSession,
     _current_user: CurrentUser,
-    product_id: int | None = None,
-    movement_type: MovementType | None = MovementTypeQuery,
-) -> list[dict[str, object]]:
-    return list_movements(db, product_id=product_id, movement_type=movement_type)
+    product_id: ProductQuery = None,
+    movement_type: MovementTypeQuery = None,
+    created_by_id: CreatedByQuery = None,
+    date_from: datetime | None = None,
+    date_to: datetime | None = None,
+    limit: LimitQuery = 20,
+    offset: OffsetQuery = 0,
+) -> dict[str, object]:
+    return list_movements(
+        db,
+        created_by_id=created_by_id,
+        date_from=date_from,
+        date_to=date_to,
+        limit=limit,
+        movement_type=movement_type,
+        offset=offset,
+        product_id=product_id,
+    )
 
 
 @router.post(

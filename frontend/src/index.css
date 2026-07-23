@@ -388,7 +388,7 @@ td {
 
 .toolbar-panel {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) auto;
   gap: 16px;
   align-items: end;
   padding: 16px;
@@ -456,6 +456,59 @@ td > button {
 .status-pill--warning {
   color: #7c2d12;
   background: #ffedd5;
+}
+
+.summary-list {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+}
+
+.summary-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e3e5;
+}
+
+.summary-row:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.summary-row span {
+  color: #45474c;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.summary-row strong {
+  color: #091426;
+  font-size: 20px;
+}
+
+.summary-row small {
+  grid-column: 1 / -1;
+  color: #545f73;
+  font-weight: 700;
+}
+
+.pagination-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #c5c6cd;
+  border-radius: 8px;
+}
+
+.pagination-panel span {
+  color: #45474c;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .state-panel {

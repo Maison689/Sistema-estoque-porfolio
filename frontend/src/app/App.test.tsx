@@ -130,6 +130,28 @@ function mockFetchForUser(user = adminUser) {
       if (!authorization) return Promise.resolve(jsonResponse({}, 401))
       return Promise.resolve(jsonResponse([adminUser]))
     }
+    if (url.includes('/dashboard')) {
+      const authorization = new Headers(init?.headers).get('Authorization')
+      if (!authorization) return Promise.resolve(jsonResponse({}, 401))
+      if (user.role === 'OPERATOR') return Promise.resolve(jsonResponse({}, 403))
+      return Promise.resolve(
+        jsonResponse({
+          low_stock_products: products,
+          metrics: {
+            active_products: 1,
+            inactive_products: 0,
+            low_stock_products: 1,
+            total_movements: movements.length,
+          },
+          movement_summary: [
+            { count: 0, quantity_delta_total: '0.000', type: 'ENTRY' },
+            { count: 1, quantity_delta_total: '-2.000', type: 'EXIT' },
+            { count: 0, quantity_delta_total: '0.000', type: 'ADJUSTMENT' },
+          ],
+          recent_movements: movements.slice(0, 5),
+        }),
+      )
+    }
     if (url.includes('/categories')) {
       const authorization = new Headers(init?.headers).get('Authorization')
       if (!authorization) return Promise.resolve(jsonResponse({}, 401))
@@ -201,7 +223,14 @@ function mockFetchForUser(user = adminUser) {
         movements.unshift(movement)
         return Promise.resolve(jsonResponse(movement, 201))
       }
-      return Promise.resolve(jsonResponse(movements))
+      return Promise.resolve(
+        jsonResponse({
+          items: movements,
+          limit: 10,
+          offset: 0,
+          total: movements.length,
+        }),
+      )
     }
     if (url.includes('/products')) {
       const authorization = new Headers(init?.headers).get('Authorization')
@@ -285,7 +314,8 @@ test('logs in and renders the dashboard shell', async () => {
     screen.getByRole('navigation', { name: /navegacao principal/i }),
   ).toBeVisible()
   expect(screen.getByText('Admin User')).toBeVisible()
-  expect(screen.getByText('Produtos ativos')).toBeVisible()
+  await waitFor(() => expect(screen.getByText('Produtos ativos')).toBeVisible())
+  expect(screen.getAllByText('Abaixo do minimo')[0]).toBeVisible()
 })
 
 test('navigates to admin users screen', async () => {
