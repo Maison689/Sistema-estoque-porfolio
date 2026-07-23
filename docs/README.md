@@ -24,6 +24,9 @@ em `AGENTS.md`.
 | `Data-Model.md` | Define entidades, campos, relacionamentos, constraints, transações e decisões aprovadas do banco. | Antes de alterar models, persistência, consultas, migrations ou integridade dos dados. |
 | `Non-Functional-Requirements.md` | Define metas essenciais de performance, segurança, responsividade e escalabilidade. | Ao implementar, testar ou revisar qualquer uma dessas características. |
 | `Execution-Plan.md` | Organiza o projeto em metas, dependências, critérios de conclusão e gates de aprovação. | Antes de iniciar uma nova fase e ao acompanhar o andamento do projeto. |
+| `API.md` | Resume os endpoints, perfis e filtros da API atual. | Ao integrar, testar manualmente ou demonstrar contratos da API. |
+| `Quality-Checklist.md` | Registra verificações de qualidade, segurança, comandos e pendências. | Ao validar uma entrega ou preparar publicação. |
+| `Portfolio.md` | Resume o projeto para apresentação e demonstração. | Ao montar README, apresentação, screenshots ou descrição pública. |
 
 ## 2. Documentos obrigatórios por tipo de tarefa
 

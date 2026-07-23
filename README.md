@@ -20,7 +20,8 @@ produtos e saldo inicial zero com API real e tela integrada. A Meta 7 entregou
 fornecedores e vinculos com produtos. A Meta 8 entregou movimentacoes de
 estoque com entrada, saida, ajuste e consistencia transacional de saldo. A Meta
 9 conectou dashboard gerencial, historico paginado/filtravel e destaque de
-produtos abaixo do minimo aos dados oficiais.
+produtos abaixo do minimo aos dados oficiais. A Meta 10 consolidou a
+documentacao de API, qualidade, portfolio, dados demo e screenshots.
 
 ## Pre-requisitos locais
 
@@ -49,6 +50,7 @@ docs/       # Especificacao e plano de execucao
 1. Copie `.env.example` para `.env` quando a implementacao iniciar.
 2. Ajuste os valores locais sem versionar segredos reais.
 3. Use PostgreSQL 17 na porta `5433` para o ambiente local deste projeto.
+4. Execute as migrations antes de iniciar a API.
 
 ## Comandos
 
@@ -84,6 +86,21 @@ $env:ADMIN_INITIAL_NAME='Administrador'
 .\.venv\Scripts\python.exe -m scripts.create_initial_admin
 ```
 
+Criar dados locais de demonstracao sem senha fixa:
+
+```powershell
+cd backend
+$env:DEMO_ADMIN_EMAIL='admin@empresa.com'
+.\.venv\Scripts\python.exe -m scripts.create_demo_data
+```
+
+## Documentacao de apoio
+
+- [API](docs/API.md)
+- [Checklist de qualidade](docs/Quality-Checklist.md)
+- [Portfolio](docs/Portfolio.md)
+- [Plano de execucao](docs/Execution-Plan.md)
+
 ## Proximo passo
 
-Apresentar e aprovar o plano da Meta 10.
+Apresentar e aprovar o plano da Meta 11.

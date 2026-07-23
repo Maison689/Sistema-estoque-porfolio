@@ -2,7 +2,7 @@
 
 ## Controle do documento
 
-- **Status:** Meta 9 concluida; pronto para planejar a Meta 10
+- **Status:** Meta 10 concluida; pronto para planejar a Meta 11
 - **Objetivo:** orientar a execução do MVP por metas verificáveis
 - **Método:** Specification-Driven Development (SDD)
 
@@ -400,8 +400,23 @@ oficiais e cada alteracao de saldo pode ser rastreada pelo usuario.
 - README completo, documentação da API e screenshots;
 - CI no GitHub mediante aprovação de workflow e ações externas.
 
-**Critério de conclusão:** outra pessoa consegue instalar, compreender, executar
-e validar o MVP seguindo o repositório.
+**Atividades concluidas em 23/07/2026:**
+
+- README raiz revisado com fluxo local, documentos de apoio e dados demo;
+- documentacao resumida da API criada em `docs/API.md`;
+- checklist de qualidade, seguranca, dependencias e DoD criado em
+  `docs/Quality-Checklist.md`;
+- resumo de portfolio criado em `docs/Portfolio.md`;
+- screenshots desktop e mobile gerados em `docs/screenshots`;
+- script `scripts.create_demo_data` criado para popular dados locais sem senha
+  fixa ou credencial versionada;
+- validacao visual local realizada no dashboard desktop e mobile;
+- lint, testes e build executados para backend e frontend;
+- CI registrado como pendente por exigir aprovacao especifica de workflow e
+  acoes externas.
+
+**Critério de conclusão:** concluido. Outra pessoa consegue instalar,
+compreender, executar e validar o MVP seguindo o repositorio.
 
 ### Meta 11 — Deploy com Docker
 
@@ -459,5 +474,5 @@ Uma tarefa só está concluída quando:
 
 ## 7. Ordem imediata
 
-O proximo passo e apresentar o plano detalhado da Meta 10, incluindo qualidade,
-revisao de criterios, documentacao final e preparacao de portfolio.
+O proximo passo e apresentar o plano detalhado da Meta 11, incluindo Docker,
+deploy, segredos de producao, operacao e rollback.

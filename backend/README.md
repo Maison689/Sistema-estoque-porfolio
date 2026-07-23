@@ -86,3 +86,13 @@ $env:ADMIN_INITIAL_PASSWORD='defina-uma-senha-local'
 $env:ADMIN_INITIAL_NAME='Administrador'
 .\.venv\Scripts\python.exe -m scripts.create_initial_admin
 ```
+
+Criar dados locais de demonstracao:
+
+```powershell
+$env:DEMO_ADMIN_EMAIL='admin@empresa.com'
+.\.venv\Scripts\python.exe -m scripts.create_demo_data
+```
+
+O script de demonstracao nao define senha nem cria usuario. Ele usa um usuario
+existente informado por `DEMO_ADMIN_EMAIL`.

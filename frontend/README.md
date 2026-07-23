@@ -39,6 +39,11 @@ O dashboard consulta `GET /api/v1/dashboard` e apresenta indicadores reais,
 produtos abaixo do minimo, resumo de movimentacoes por tipo e atividades
 recentes. Operador nao acessa o dashboard gerencial.
 
+## Screenshots
+
+Screenshots de portfolio ficam em `../docs/screenshots` e cobrem dashboard,
+catalogo, movimentacoes, fornecedores e dashboard mobile.
+
 ## Comandos
 
 ```powershell
